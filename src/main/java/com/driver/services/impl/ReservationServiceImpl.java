@@ -44,7 +44,7 @@ public class ReservationServiceImpl implements ReservationService {
             if(spot.getSpotType() == SpotType.OTHERS)
                 wheels=24;
 
-            if(!spot.getOccupied() && wheels >= numberOfWheels){
+            if(!spot.getOccupied() && numberOfWheels <= wheels){
                 reservedSpot=spot;
                 break;
             }
