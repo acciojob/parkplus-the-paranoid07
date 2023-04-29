@@ -22,7 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
         try {
              reservation=reservationRepository2.findById(reservationId).get();
         }catch (Exception e){
-            throw new Exception(e.getMessage());
+            throw new Exception("Reservation id not valid");
         }
         if(amountSent < reservation.getSpot().getPricePerHour()*reservation.getNumberOfHours())
             throw new Exception("Insufficient Amount");
