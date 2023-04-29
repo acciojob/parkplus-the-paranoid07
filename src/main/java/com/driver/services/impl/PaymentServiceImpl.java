@@ -18,8 +18,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
-        Reservation reservation=reservationRepository2.findById(reservationId).get();
-
+        Reservation reservation;
+        try {
+             reservation=reservationRepository2.findById(reservationId).get();
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
         if(amountSent < reservation.getSpot().getPricePerHour()*reservation.getNumberOfHours())
             throw new Exception("Insufficient Amount");
 

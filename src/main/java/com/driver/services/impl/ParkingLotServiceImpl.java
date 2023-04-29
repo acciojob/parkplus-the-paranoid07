@@ -37,11 +37,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         spot.setOccupied(false);
         spot.setParkingLot(parkingLot);
 
-        if(numberOfWheels == 2)
+        if(numberOfWheels <= 2)
             spot.setSpotType(SpotType.TWO_WHEELER);
-        if(numberOfWheels == 4)
+        else if(numberOfWheels <= 4)
             spot.setSpotType(SpotType.FOUR_WHEELER);
-        if(numberOfWheels > 4)
+        else if(numberOfWheels > 4)
             spot.setSpotType(SpotType.OTHERS);
 
         parkingLot.getSpotList().add(spot);
@@ -52,9 +52,13 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     }
 
     @Override
-    public void deleteSpot(int spotId) {
-
-        Spot spot=spotRepository1.findById(spotId).get();
+    public void deleteSpot(int spotId) throws Exception {
+        Spot spot;
+        try {
+             spot=spotRepository1.findById(spotId).get();
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
 
         spot.getParkingLot().getSpotList().remove(spot);
 
@@ -63,10 +67,15 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     }
 
     @Override
-    public Spot updateSpot(int parkingLotId, int spotId, int pricePerHour) {
+    public Spot updateSpot(int parkingLotId, int spotId, int pricePerHour) throws Exception {
        // ParkingLot parkingLot=parkingLotRepository1.findById(parkingLotId).get();
 
-        Spot spot=spotRepository1.findById(spotId).get();
+        Spot spot;
+        try {
+            spot=spotRepository1.findById(spotId).get();
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
         spot.setPricePerHour(pricePerHour);
 
         spotRepository1.save(spot);
